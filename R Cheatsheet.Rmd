@@ -1,0 +1,238 @@
+---
+title: "R Notebook"
+output:
+  md_document:
+    variant: markdown_github
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+# Basic Commands
+
+## Hello World
+
+```{r}
+print("Hello World")
+```
+
+## Get help for a command
+
+```{r}
+?load
+```
+
+## Calculations
+
+R performs addition, subtraction, multiplication, and division with +, -, \*, and /
+
+```{r}
+25 * 4 + 9 / 3
+```
+
+## Comments
+
+R interprets anything after a \# as a comment.
+
+```{r}
+persnickety_count <- 0
+```
+
+## Data Types
+
+-   Numeric: Any number with or without a decimal point: 23, 0.03and the numeric null value NA.
+-   Character: Any grouping of characters on your keyboard (letters, numbers, spaces, symbols, etc.) or text. Most strings are surrounded by single quotes: ' ... ' or double quotes " ... ", though we prefer single quotes. Sometimes you will hear this type referred to as "string."
+-   Logical: This data type only has two possible values--- either TRUE or FALSE (without quotes). It's helpful to think of logical types or booleans as on and off switches or as the answers to a "yes" or "no" question.
+-   Vectors: A list of related data that is all the same type.
+-   NA: This data type represents the absence of a value, and is represented by the keyword NA (without quotes) but it has its own significance in the context of the different types. That is there is a numeric NA, a character NA, and a logical NA.
+
+```{r}
+class(2)        # numeric
+class('hello')  # character
+class('23')     # character
+class (FALSE)   # logical
+class(NA)       # logical
+```
+
+## Variables
+
+```{r}
+# Greeting
+message_string <- "Hello there"
+print(message_string)
+ 
+# Farewell
+message_string <- "Hasta la vista"
+print(message_string)
+```
+
+## Vectors
+
+In R, vectors are a list-like structure that contain items of the same data type.
+
+```{r}
+phone <- c(123, 456, 789)
+print(phone)
+typeof(phone)
+print(phone[1])   # R starts to count at 1
+
+```
+
+## Conditionals
+
+```{r}
+if (TRUE) {
+   print("Go to sleep!")
+} else {
+   print("Wake up!")
+}
+```
+
+### ifelse() function
+
+This function takes a logical expression test on some vector, if the test is True, the first action True is taken otherwise the second action False is taken. 
+
+```{r}
+# ifelse() function
+score <- c(77,35,89,100,45,67,50)
+ifelse(score >= 50, "Pass", "Fail")
+
+```
+
+## Comparison Operators
+
+-   Less than: `<`
+
+-   Greater than: `>`
+
+-   Less than or equal to: `<=`
+
+-   Greater than or equal to: `>=`
+
+-   Is equal to: `==`
+
+-   Is NOT equal to: `!=`
+
+```{r}
+10 < 12 # Evaluates to TRUE
+```
+
+## Logical Operators
+
+-   the AND operator (`&`)
+
+-   the OR operator (`|`)
+
+-   the NOT operator, otherwise known as the bang operator (`!`)
+
+```{r}
+stopLight <- 'green'
+pedestrians <- 0
+if (stopLight == 'green' & pedestrians == 0) {
+  print('Go!');
+} else {
+  print('Stop');
+}
+```
+
+## Calling a Function
+
+```{r}
+sort(c(2,4,10,5,1)); # Outputs c(1,2,4,5,10)
+length(c(2,4,10,5,1)); # Outputs 5
+sum(5,15,10) #Outputs 30
+
+data <- c(120,22,22,31,15,120)
+
+unique_vals <- unique(data)
+print(unique_vals)
+
+solution <- sqrt(49)
+print(solution)
+
+round_down <- floor(3.14)
+print(round_down)
+
+round_up <- ceiling(3.14)
+print(round_up)
+```
+
+## Loops
+
+### For-Loop
+
+```{r}
+for ( x in 1:5){
+    print(x)
+}
+```
+
+### While-Loop
+
+```{r}
+x  <-  10
+while ( x >= 5 ) {
+     print (x)
+     x  <-  x-1
+}
+```
+
+### Repeat-Loop
+
+```{r}
+counter <- 10
+
+repeat { 
+    print(counter)
+    counter <- counter - 1
+    if (counter < 5)
+        break
+}
+```
+
+## Recursion
+
+```{r}
+factorial <- function(n) {
+    if (n == 0)     
+        return (1)
+
+    else 
+        return (n * factorial (n-1))
+}
+
+factorial(5)
+```
+
+## Importing Packages
+
+Base R refers the R language by itself and all that it can do without importing any packages.
+
+[CRAN](https://cran.r-project.org/) offers more packages to extend the functionality of R. Dplyr is a package used to clean, process, and organize data which you will use as you learn about R. The goal of 'readr' is to provide a fast and friendly way to read rectangular data (like 'csv', 'tsv', and 'fwf').
+
+```{r}
+# load libraries
+library('dplyr')
+library('readr')
+```
+
+## CSV Import options
+
+```{r}
+data <- read.csv('data/biostats.csv')
+# data <- read.csv(file.choose())
+data <- read.csv("https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv")
+```
+
+### readr
+
+```{r}
+# load data frame
+biostats <- read_csv('data/biostats.csv')
+
+# inspect data frame
+biostats
+head(biostats)
+summary(biostats)
+
+```
