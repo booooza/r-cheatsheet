@@ -100,6 +100,13 @@ print(message_string)
 
     ## [1] "Hasta la vista"
 
+``` r
+result <- 1 + 2
+print(result)
+```
+
+    ## [1] 3
+
 ## Vectors
 
 In R, vectors are a list-like structure that contain items of the same
@@ -424,3 +431,224 @@ summary(biostats)
     ##  Mean   :146.7  
     ##  3rd Qu.:165.2  
     ##  Max.   :176.0
+
+## Averages (Lageparameter)
+
+### Mean (Mittelwert)
+
+It is calculated by taking the sum of the values and dividing with the
+number of values in a data series. The function **mean()** is used to
+calculate this in R.
+
+    mean(x, trim = 0, na.rm = FALSE, ...)
+
+-   **x** is the input vector.
+
+-   **trim** is used to drop some observations from both end of the
+    sorted vector. e.g. trim = 0.3 drops 3 values from start and end.
+
+-   **na.rm** is used to remove the missing values from the input
+    vector. If there are missing values, then the mean function by
+    default returns NA.
+
+``` r
+# Create a vector. 
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5)
+
+# Find Mean.
+result.mean <- mean(x)
+print(result.mean)
+```
+
+    ## [1] 8.22
+
+### Median
+
+The middle most value in a data series is called the median. The
+**median()** function is used in R to calculate this value.
+
+    median(x, na.rm = FALSE)
+
+-   **x** is the input vector.
+
+-   **na.rm** is used to remove the missing values from the input
+    vector.
+
+``` r
+# Create the vector.
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5)
+
+# Find the median.
+median.result <- median(x)
+print(median.result)
+```
+
+    ## [1] 5.6
+
+### Modus (Modus)
+
+The mode is the value that has highest number of occurrences in a set of
+data. Unike mean and median, mode can have both numeric and character
+data.
+
+``` r
+# Create the function.
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Create the vector with numbers.
+v <- c(2,1,2,3,1,2,3,4,1,5,5,3,2,3)
+
+# Calculate the mode using the user function.
+result <- getmode(v)
+print(result)
+```
+
+    ## [1] 2
+
+### Averages from a csv file
+
+``` r
+biostats <- read_csv('data/biostats.csv')
+```
+
+    ## 
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## cols(
+    ##   Name = col_character(),
+    ##   Sex = col_character(),
+    ##   Age = col_double(),
+    ##   `Height (in)` = col_double(),
+    ##   `Weight (lbs)` = col_double()
+    ## )
+
+``` r
+result.mean <- mean(biostats$Age)
+result.median <- median(biostats$Age)
+result.mode <- getmode(biostats$Age)
+print(result.mean)
+```
+
+    ## [1] 34.66667
+
+``` r
+print(result.median)
+```
+
+    ## [1] 32.5
+
+``` r
+print(result.mode)
+```
+
+    ## [1] 32
+
+## **Statistical dispersion (Streuparameter)**
+
+### Range (Spannweite)
+
+The range of a set of data is the difference between the largest and
+smallest values. It can give you a rough idea of how the outcome of the
+data set will be before you look at it actually.
+
+``` r
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5)
+result.range <- max(x) - min(x)
+print(result.range)
+```
+
+    ## [1] 75
+
+### Interquartile range (Quartilsabstand)
+
+Interquartile range (IQR), also called the midspread, middle 50%, or
+H‑spread, is a measure of statistical dispersion, being equal to the
+difference between 75th and 25th percentiles, or between upper and lower
+quartiles.
+
+-   **x** is a numeric vector.
+
+-   **na.rm** Should missing values be removed?
+
+-   **type** is an integer between 1 and 9 selecting one of the nine
+    quantile algorithms.
+
+``` r
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5)
+result.iqr <- IQR(x, na.rm = FALSE, type = 7)
+print(result.iqr)
+```
+
+    ## [1] 8.75
+
+### Variance (Varianz)
+
+Variance is the expectation of the squared deviation of a random
+variable from its mean.
+
+``` r
+v <- c(2,1,2,3,1,2,3,4,1,5,5,3,2,3)
+result.var <- var(v)
+print(result.var)
+```
+
+    ## [1] 1.785714
+
+### Standard deviation (Standardabweichung)
+
+The standard deviation is a measure of the amount of variation or
+dispersion of a set of values.
+
+``` r
+v <- c(2,1,2,3,1,2,3,4,1,5,5,3,2,3)
+result.sd <- sd(v)
+print(result.sd)
+```
+
+    ## [1] 1.336306
+
+### **Statistical dispersion from csv file**
+
+``` r
+biostats <- read_csv('data/biostats.csv')
+```
+
+    ## 
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## cols(
+    ##   Name = col_character(),
+    ##   Sex = col_character(),
+    ##   Age = col_double(),
+    ##   `Height (in)` = col_double(),
+    ##   `Weight (lbs)` = col_double()
+    ## )
+
+``` r
+result.range <- max(biostats$Age) - min(biostats$Age)
+result.iqr <- IQR(biostats$Age, na.rm = FALSE, type = 7)
+result.var <- var(biostats$Age)
+result.sd <- sd(biostats$Age)
+print(result.range)
+```
+
+    ## [1] 30
+
+``` r
+print(result.iqr)
+```
+
+    ## [1] 8.75
+
+``` r
+print(result.var)
+```
+
+    ## [1] 57.41176
+
+``` r
+print(result.sd)
+```
+
+    ## [1] 7.577055
